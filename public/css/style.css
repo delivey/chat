@@ -1,3 +1,22 @@
 h1 {
     color: blue;
 }
+
+.big-text {
+    font-size: 30px;
+}
+
+.mid-container {
+    padding-left: 800px;
+    padding-top: 250px;
+}
+
+.username-input {
+    margin-top: 40px;
+    width: 280px;
+}
+
+.continue-btn {
+    margin-left: 90px;
+    margin-top: 50px;
+}
