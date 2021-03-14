@@ -9,14 +9,30 @@
     <title>Chat</title>
 </head>
 
+<script src="js/socket.io.js"></script>
+<script>
+  var socket = io();
+</script>
+
 <body>
     <div class="mid-container">
-        <p class="big-text">Enter your message</p>
-        <form action="/register" method="POST">
-            <input type="text" class="username-input" name="username">
-            <br>
-            <button type="submit" class="btn btn-primary continue-btn">Send</button>
-        </form> 
+        <div class="messages">
+            <div class="message left">
+                <p class="username">John Doe</p>
+                <p class="message-content">Hey, what's up?</p>
+            </div>
+            <div class="message right">
+                <p class="username">Johnny Dough</p>
+                <p class="message-content">Nothing much, you?</p>
+            </div>
+        </div>
+        <div class="send">
+            <form action="/register" method="POST">
+                <input type="text" class="message-input" name="message">
+                <br>
+                <button type="submit" class="btn btn-primary continue-btn">Send</button>
+            </form> 
+        </div>
     </div>
 </body>
 </html>

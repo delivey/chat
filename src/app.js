@@ -3,7 +3,9 @@ const path = require("path");
 const session = require("express-session");
 
 const app = express();
+const http = require('http').Server(app);
 const port = 8080;
+const io = require('socket.io')(http);
 
 app.use(express.static(path.join(__dirname, "./../public")));
 app.set("views", path.join(__dirname, "./../public/views"));
@@ -21,7 +23,8 @@ app.use(
 );
 
 require("./api/user.js")(app);
+require("./api/chat.js")(app, io);
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+http.listen(port, () => {
+  console.log(`Chat listening at http://localhost:${port}`);
 });
