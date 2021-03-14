@@ -19,6 +19,31 @@
 
         var socket = io();
 
+        function showMessage(message) {
+
+            let newMessage = document.createElement("div")
+            let messageSide = ownUsername == message.username ? "right" : "left";
+
+            newMessage.className = `message ${messageSide}`
+
+            let messages = document.getElementsByClassName("messages")[0]
+            messages.appendChild(newMessage);
+
+            let newMsgUsername = document.createElement("p")
+            let newMsgContent = document.createElement("p");
+
+            console.log(message.username)
+            newMsgUsername.innerHTML = message.username;
+            newMsgUsername.className = "username"
+
+            newMsgContent.innerHTML = message.content;
+            newMsgContent.className = "message-content";
+
+            newMessage.append(newMsgUsername);
+            newMessage.append(newMsgContent);
+
+        }
+
         if (form.addEventListener) {
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -29,30 +54,12 @@
                 }
                 socket.emit("message", message)
                 messageContent.value = "";
+                showMessage(message);
             }
         )}
 
         socket.on("message", function (message) {
-
-            let newMessage = document.createElement("div")
-            let messageSide = ownUsername == message.username ? "right" : "left";
-            
-            newMessage.className = `message ${messageSide}`
-
-            let messages = document.getElementsByClassName("messages")[0]
-            messages.appendChild(newMessage);
-
-            let newMsgUsername = document.createElement("p")
-            let newMsgContent = document.createElement("p");
-
-            newMsgUsername.innerHTML = message.username;
-            newMsgUsername.className = "username"
-
-            newMsgContent.innerHTML = message.content;
-            newMsgContent.className = "message-content";
-
-            newMessage.append(newMsgUsername);
-            newMessage.append(newMsgContent);
+            showMessage(message);
         });
     }
 
@@ -61,14 +68,6 @@
 <body>
     <div class="mid-container">
         <div class="messages">
-            <div class="message left">
-                <p class="username">John Doe</p>
-                <p class="message-content">Hey, what's up?</p>
-            </div>
-            <div class="message right">
-                <p class="username">Johnny Dough</p>
-                <p class="message-content">Nothing much, you?</p>
-            </div>
         </div>
         <div class="send">
             <form action="" id="send">

@@ -5,9 +5,7 @@ module.exports = function (app, io) {
   });
 
   io.on("connection", (socket) => {
-    console.log("a user connected");
     socket.on("message", (message) => {
-      console.log("Received message");
       socket.broadcast.emit("message", message);
     });
   });
