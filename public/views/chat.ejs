@@ -11,7 +11,44 @@
 
 <script src="js/socket.io.js"></script>
 <script>
-  var socket = io();
+
+    window.onload = function () {
+        let form = document.getElementById("send");
+
+        var socket = io();
+
+        if (form.addEventListener) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                let messageContent = document.getElementById("message");
+                socket.emit("message", messageContent.value)
+                messageContent.value = "";
+            }
+        )}
+
+        socket.on("message", function (message) {
+
+            let newMessage = document.createElement("div")
+            newMessage.className = "message right"
+            let messages = document.getElementsByClassName("messages")[0]
+            messages.appendChild(newMessage);
+
+            let newMsgUsername = document.createElement("p")
+            let newMsgContent = document.createElement("p");
+
+            newMsgUsername.value = "John Doe"
+            newMsgUsername.className = "username"
+
+            newMsgContent.value = message;
+            newMsgContent.className = "message-content";
+
+            newMessage.append(newMsgUsername);
+            newMessage.append(newMsgContent);
+            
+            console.log(`New message received! ${message}`)
+        });
+    }
+
 </script>
 
 <body>
@@ -27,8 +64,8 @@
             </div>
         </div>
         <div class="send">
-            <form action="/register" method="POST">
-                <input type="text" class="message-input" name="message">
+            <form action="" id="send">
+                <input type="text" class="message-input" id="message">
                 <br>
                 <button type="submit" class="btn btn-primary continue-btn">Send</button>
             </form> 
