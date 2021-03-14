@@ -13,7 +13,9 @@
 <script>
 
     window.onload = function () {
+
         let form = document.getElementById("send");
+        var ownUsername = document.getElementById("ownUsername").value
 
         var socket = io();
 
@@ -21,7 +23,11 @@
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 let messageContent = document.getElementById("message");
-                socket.emit("message", messageContent.value)
+                let message = {
+                    "content": messageContent.value,
+                    "username": ownUsername
+                }
+                socket.emit("message", message)
                 messageContent.value = "";
             }
         )}
@@ -29,23 +35,24 @@
         socket.on("message", function (message) {
 
             let newMessage = document.createElement("div")
-            newMessage.className = "message right"
+            let messageSide = ownUsername == message.username ? "right" : "left";
+            
+            newMessage.className = `message ${messageSide}`
+
             let messages = document.getElementsByClassName("messages")[0]
             messages.appendChild(newMessage);
 
             let newMsgUsername = document.createElement("p")
             let newMsgContent = document.createElement("p");
 
-            newMsgUsername.value = "John Doe"
+            newMsgUsername.innerHTML = message.username;
             newMsgUsername.className = "username"
 
-            newMsgContent.value = message;
+            newMsgContent.innerHTML = message.content;
             newMsgContent.className = "message-content";
 
             newMessage.append(newMsgUsername);
             newMessage.append(newMsgContent);
-            
-            console.log(`New message received! ${message}`)
         });
     }
 
@@ -65,6 +72,7 @@
         </div>
         <div class="send">
             <form action="" id="send">
+                <input type="hidden" id="ownUsername" value="<%=ownUsername%>">
                 <input type="text" class="message-input" id="message">
                 <br>
                 <button type="submit" class="btn btn-primary continue-btn">Send</button>

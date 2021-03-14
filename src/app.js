@@ -3,9 +3,9 @@ const path = require("path");
 const session = require("express-session");
 
 const app = express();
-const http = require('http').Server(app);
+const http = require("http").Server(app);
 const port = 8080;
-const io = require('socket.io')(http);
+const io = require("socket.io")(http);
 
 app.use(express.static(path.join(__dirname, "./../public")));
 app.set("views", path.join(__dirname, "./../public/views"));
@@ -16,9 +16,9 @@ app.use(
   session({
     secret: "keyboard cat",
     maxAge: Date.now() + 30 * 86400 * 1000,
-    resave: true,
+    resave: false,
     saveUninitialized: false,
-    cookie: {},
+    cookie: { secure: false },
   })
 );
 
