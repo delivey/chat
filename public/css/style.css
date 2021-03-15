@@ -1,12 +1,14 @@
-h1 {
-    color: blue;
+body, html {
+    background-color:rgb(44, 44, 44);
 }
 
 .big-text {
+    color: white;
     font-size: 1.875rem;
 }
 
 .mid-container {
+    background-color: rgb(44, 44, 44);
     padding-left: 50rem;
     padding-top: 15.625rem;
 }
@@ -30,7 +32,6 @@ h1 {
     height: 37.5rem;
     margin-left: -18.75rem;
     margin-right: 37.5rem;
-    border: 4px solid red;
 }
 
 .message {
