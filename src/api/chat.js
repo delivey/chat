@@ -1,4 +1,5 @@
 module.exports = function (app, io) {
+
   app.get("/chat", async function (req, res) {
     let ownUsername = req.session.username;
     res.render("chat", { ownUsername: ownUsername });
@@ -9,4 +10,5 @@ module.exports = function (app, io) {
       socket.broadcast.emit("message", message);
     });
   });
+  
 };
