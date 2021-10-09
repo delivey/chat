@@ -31,10 +31,11 @@ function afterPageLoad() {
     if (form.addEventListener) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            let messageContent = document.getElementById("message").value;
-            if (messageContent !== "") {
+            let messageContent = document.getElementById("message");
+            if (messageContent.value !== "") {
+                autoMessageScroller()
                 let message = {
-                    "content": messageContent,
+                    "content": messageContent.value,
                     "username": ownUsername
                 }
                 socket.emit("message", message)
@@ -44,6 +45,17 @@ function afterPageLoad() {
             messageContent.value = "";
         }
     )}
+
+    function autoMessageScroller() {
+        const messagesContainer = document.getElementById('messages');
+        const messages = messagesContainer.getElementsByTagName('div')
+        const messageCount = messages.length;
+        const magicMessageNumber = 7
+        console.log(messageCount)
+        if (messageCount >= magicMessageNumber) {
+            messagesContainer.removeChild(messages[0]); // Remove the child from queue that is the first li element. 
+        }
+    }
 
     function showOldMessages() {
         const old = JSON.parse(document.getElementById("onLoadedMessages").textContent)
@@ -56,6 +68,7 @@ function afterPageLoad() {
     showOldMessages()
 
     socket.on("message", function (message) {
+        autoMessageScroller()
         showMessage(message);
     });
 }

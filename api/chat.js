@@ -5,7 +5,7 @@ module.exports = function (app, io) {
         const ownUsername = req.session.username;
         if (!ownUsername) res.redirect("/");
         else {
-            const messages = JSON.stringify(await Messages.find({}));
+            const messages = JSON.stringify(await Messages.find({}).limit(7));
             res.render("chat", { ownUsername: ownUsername, onLoadedMessages: messages });
         }
     });
