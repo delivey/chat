@@ -10,62 +10,10 @@
 </head>
 
 <script src="js/socket.io.js"></script>
-<script>
+<script src="js/show-messages.js"></script>
 
-    window.onload = function () {
-
-        let form = document.getElementById("send");
-        var ownUsername = document.getElementById("ownUsername").value
-
-        var socket = io();
-
-        function showMessage(message) {
-
-            let newMessage = document.createElement("div")
-            let messageSide = ownUsername == message.username ? "right" : "left";
-
-            newMessage.className = `message ${messageSide}`
-
-            let messages = document.getElementsByClassName("messages")[0]
-            messages.appendChild(newMessage);
-
-            let newMsgUsername = document.createElement("p")
-            let newMsgContent = document.createElement("p");
-
-            console.log(message.username)
-            newMsgUsername.innerHTML = message.username;
-            newMsgUsername.className = "username"
-
-            newMsgContent.innerHTML = message.content;
-            newMsgContent.className = "message-content";
-
-            newMessage.append(newMsgUsername);
-            newMessage.append(newMsgContent);
-
-        }
-
-        if (form.addEventListener) {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                let messageContent = document.getElementById("message");
-                let message = {
-                    "content": messageContent.value,
-                    "username": ownUsername
-                }
-                socket.emit("message", message)
-                messageContent.value = "";
-                showMessage(message);
-            }
-        )}
-
-        socket.on("message", function (message) {
-            showMessage(message);
-        });
-    }
-
-</script>
-
-<body>
+<p id="onLoadedMessages" hidden><%= onLoadedMessages %></p>
+<body onload="afterPageLoad();">
     <div class="mid-container">
         <div class="messages">
         </div>

@@ -2,32 +2,35 @@ const express = require("express");
 const path = require("path");
 const session = require("express-session");
 const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo")
 require("dotenv").config();
 log = console.log;
 
-mongoose.connect(process.env.MONGO_URI, {
+const mongoUrl = process.env.MONGO_URI
+
+mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 const app = express();
 const http = require("http").Server(app);
-const port = 8080;
 const io = require("socket.io")(http);
+const port = 8080;
 
-app.use(express.static(path.join(__dirname, "./../public")));
-app.set("views", path.join(__dirname, "./../public/views"));
+app.use(express.static(path.join(__dirname, "./public")));
+app.set("views", path.join(__dirname, "./public/views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
-  session({
-    secret: "keyboard cat",
-    maxAge: Date.now() + 30 * 86400 * 1000,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false },
-  })
+	session({
+		secret: "keyboard cat",
+		resave: false,
+		saveUninitialized: false,
+		cookie: { secure: false },
+		store: MongoStore.create({ mongoUrl: mongoUrl }),
+	})
 );
 
 require("./api/user.js")(app);
