@@ -11,12 +11,16 @@
 
 <script src="js/socket.io.js"></script>
 <script src="js/show-messages.js"></script>
+<script src="js/search.js"></script>
 
 <p id="onLoadedMessages" hidden><%= onLoadedMessages %></p>
 <body onload="afterPageLoad();">
     <div class="everything">
-        <div class="sidebar">
+        <div id="sidebar" class="sidebar">
             <p class="msg-text">Messages</p>
+            <div class="search">
+                <input type="text" id="search" placeholder="Search" oninput="search()">
+            </div>
             <div class="chat-container">
                 <p class="chat-username">John Dough</p>
                 <p class="chat-last-message">You: Hello</p>

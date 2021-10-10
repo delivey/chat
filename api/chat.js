@@ -1,4 +1,5 @@
 const { Messages } = require("../models/messages.js")
+const { Users } = require("../models/users.js")
 
 module.exports = function (app, io) {
     app.get("/chat", async function (req, res) {
@@ -15,5 +16,10 @@ module.exports = function (app, io) {
             await Messages.create(message);
             socket.broadcast.emit("message", message);
         });
+        socket.on("search", async (message) => {
+            const users = await Users.find({ username: message }).limit(1)
+            console.log(users)
+            socket.emit("search", users)
+        })
     });
 };
