@@ -9,7 +9,7 @@ body, html {
 
 .mid-container {
     background-color: rgb(44, 44, 44);
-    padding-left: 50rem;
+    padding-left: 60rem;
     padding-top: 15.625rem;
 }
 
@@ -43,8 +43,8 @@ body, html {
     border-radius: 3.125rem;
     border: 2px solid rgb(21, 255, 0);
     background-color: rgb(21, 255, 0);
-    margin-left: 1.25rem;
-    margin-right: 31.25rem;
+    margin-left: 1rem;
+    margin-right: 28rem;
 }
 
 .right {
@@ -66,4 +66,24 @@ body, html {
     margin-top: -1.25rem;
     margin-left: 1.25rem;
     font-size: 1rem;
+}
+
+.msg-text {
+    position: relative;
+    font-size: 32px;
+    top: 0;
+    left: 0;
+    padding-top: 1.5rem;
+    text-align: center;
+    color: white;
+}
+
+.sidebar {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20rem;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.062);
 }

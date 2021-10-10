@@ -14,16 +14,20 @@
 
 <p id="onLoadedMessages" hidden><%= onLoadedMessages %></p>
 <body onload="afterPageLoad();">
-    <div class="mid-container">
-        <div id="messages" class="messages">
+    <div class="everything">
+        <div class="sidebar">
+            <p class="msg-text">Messages</p>
         </div>
-        <div class="send">
-            <form action="" id="send">
-                <input type="hidden" id="ownUsername" value="<%=ownUsername%>">
-                <input type="text" class="message-input" id="message">
-                <br>
-                <button type="submit" class="btn btn-primary continue-btn">Send</button>
-            </form> 
+        <div class="mid-container">
+            <div id="messages" class="messages"></div>
+            <div class="send">
+                <form action="" id="send">
+                    <input type="hidden" id="ownUsername" value="<%=ownUsername%>">
+                    <input type="text" class="message-input" id="message">
+                    <br>
+                    <button type="submit" class="btn btn-primary continue-btn">Send</button>
+                </form> 
+            </div>
         </div>
     </div>
 </body>
