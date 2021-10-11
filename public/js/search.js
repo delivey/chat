@@ -6,6 +6,7 @@ function search() {
 }
 
 console.log("loaded")
+
 socket.on("search", function (users) {
     if (users.length !== 0) {
         const user = users[0]
@@ -17,5 +18,13 @@ socket.on("search", function (users) {
         var text = document.createTextNode(user.username);
         found.appendChild(text)
         sidebar.insertBefore(found, sidebar.children[2]);
+
+        var button = document.createElement("a");
+        button.href = `h${user.id}`;
+        var buttonText = document.createElement("span");
+        buttonText.innerText = "MSG";
+        button.appendChild(buttonText);
+        found.appendChild(button);
+
     }
 });

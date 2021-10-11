@@ -72,3 +72,9 @@ function afterPageLoad() {
         showMessage(message);
     });
 }
+
+document.onreadystatechange = function () {
+    if (document.readyState == "complete") {
+      afterPageLoad()
+    }
+  }

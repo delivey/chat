@@ -11,6 +11,16 @@ module.exports = function (app, io) {
         }
     });
 
+    app.get("/h:id", async function (req, res) {
+        const id = req.params.id;
+        const ownUsername = req.session.username;
+        if (!ownUsername) res.redirect("/");
+        else {
+            const messages = JSON.stringify(await Messages.find({}).limit(7));
+            res.render("chat", { ownUsername: ownUsername, onLoadedMessages: messages });
+        }
+    })
+
     io.on("connection", async (socket) => {
         socket.on("message", async (message) => {
             await Messages.create(message);
