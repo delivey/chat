@@ -1,23 +1,28 @@
 const { Messages } = require("../models/messages.js")
 const { Users } = require("../models/users.js")
+log = console.log
 
 module.exports = function (app, io) {
     app.get("/chat", async function (req, res) {
-        const ownUsername = req.session.username;
-        if (!ownUsername) res.redirect("/");
+        const user_id = req.session.user_id
+        if (!user_id) res.redirect("/");
         else {
+            const ownUser = await Users.findOne({ id: user_id })
+            const username = ownUser.username
             const messages = JSON.stringify(await Messages.find({}).limit(7));
-            res.render("chat", { ownUsername: ownUsername, onLoadedMessages: messages });
+            res.render("chat", { ownUsername: username, ownUserId: user_id, onLoadedMessages: messages });
         }
     });
 
     app.get("/h:id", async function (req, res) {
         const id = req.params.id;
-        const ownUsername = req.session.username;
-        if (!ownUsername) res.redirect("/");
+        const user_id = req.session.user_id
+        if (!user_id) res.redirect("/");
         else {
+            const ownUser = await Users.find({ id: user_id })
+            const username = ownUser[0].username
             const messages = JSON.stringify(await Messages.find({}).limit(7));
-            res.render("chat", { ownUsername: ownUsername, onLoadedMessages: messages });
+            res.render("chat", { ownUsername: username, ownUserId: user_id, onLoadedMessages: messages });
         }
     })
 

@@ -1,4 +1,5 @@
 const { Users } = require("../models/users.js")
+log = console.log
 
 async function createId() {
     return Math.random().toString(36).substr(2, 9);
@@ -13,13 +14,14 @@ async function registerUser(username) {
         if (userWithSameId === null) duplicateId = false;
         else id = await createId();
     }
-    await Users.create({ id: id, username: username });
+    await Users.create({ id: id.toString(), username: username });
+    return id
 }
 
 module.exports = function (app) {
     app.get("/", async function (req, res) {
-        const username = req.session.username;
-        if (!username) res.render("index");
+        const user_id = req.session.user_id;
+        if (!user_id) res.render("index");
         else res.redirect("/chat");
     });
 
@@ -27,9 +29,11 @@ module.exports = function (app) {
         const username = req.body.username;
         const duplicate = await Users.findOne({ username: username }).exec();
         if (duplicate === null) {
-            registerUser(username);
+            const user_id = await registerUser(username);
+            req.session.user_id = user_id;
+        } else {
+            res.send("DUPLICATE USERNAME")
         }
-        req.session.username = username;
         res.redirect("/chat");
     });
 };
