@@ -5,7 +5,8 @@ const messagesSchema = new Schema({
     receiver_id: { type: String, default: "all"},
     user_id: String,
     username: String,
-    content: String
+    content: String,
+    time: { type: Number, default: + new Date() }
 });
 
 const Messages = model("messages", messagesSchema);

@@ -9,7 +9,8 @@ module.exports = function (app, io) {
         else {
             const ownUser = await Users.findOne({ id: user_id })
             const username = ownUser.username
-            const messages = JSON.stringify(await Messages.find({}).limit(7));
+            const messageList = await Messages.find().sort({ field: "asc", _id: -1 }).limit(7)
+            const messages = JSON.stringify(messageList.reverse())
             res.render("chat", { ownUsername: username, ownUserId: user_id, onLoadedMessages: messages });
         }
     });
@@ -28,7 +29,14 @@ module.exports = function (app, io) {
 
     io.on("connection", async (socket) => {
         socket.on("message", async (message) => {
-            await Messages.create(message);
+            const user = await Users.findOne({ username: message.username })
+            message.user_id = user.id
+            try {
+                await Messages.create(message);
+            } catch (e) {
+                log("Message could not be created.")
+                log(e)
+            }
             socket.broadcast.emit("message", message);
         });
         socket.on("search", async (message) => {
