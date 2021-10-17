@@ -6,6 +6,6 @@ A chat app built in Node.js with Socket.io
 - Private messages (WIP)
 
 # TOOD
-- [ ] Add 
+- [ ] Add basic private messaging
 - [ ] Fix potential issue with username spoofing, use socket sessions.
 - [ ] Fix db read on socket.message send.

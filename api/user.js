@@ -25,6 +25,11 @@ module.exports = function (app) {
         else res.redirect("/chat");
     });
 
+    app.get("/logout", async function (req, res) {
+        req.session.destroy()
+        res.redirect("/")
+    })
+
     app.post("/register", async function (req, res) {
         const username = req.body.username;
         const duplicate = await Users.findOne({ username: username }).exec();

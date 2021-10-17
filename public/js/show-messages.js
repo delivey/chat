@@ -1,3 +1,5 @@
+log = console.log
+
 function afterPageLoad() {
     let form = document.getElementById("send");
     var ownUsername = document.getElementById("ownUsername").value
@@ -28,16 +30,28 @@ function afterPageLoad() {
     
     }
     
-    if (form.addEventListener) {
+    if (form.addEventListener) { // Send message
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             let messageContent = document.getElementById("message");
             if (messageContent.value !== "") {
                 autoMessageScroller()
+                const currentUrl = window.location.href.split("/")[3]
+                var receiver_id;
+                if (currentUrl != "chat") {
+                    receiver_id = currentUrl.slice(1)
+                } else {
+                    receiver_id = "all"
+                }
+
                 let message = {
                     "content": messageContent.value,
-                    "username": ownUsername
+                    "username": ownUsername,
+                    "receiver_id": receiver_id
                 }
+
+                log(receiver_id)
+
                 socket.emit("message", message)
                 messageContent.value = "";
                 showMessage(message);

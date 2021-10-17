@@ -9,7 +9,7 @@ module.exports = function (app, io) {
         else {
             const ownUser = await Users.findOne({ id: user_id })
             const username = ownUser.username
-            const messageList = await Messages.find().sort({ receiver_id: "all" }).limit(7)
+            const messageList = await Messages.find({ receiver_id: "all" }).sort({ field: "asc", _id: -1 }).limit(7)
             const messages = JSON.stringify(messageList.reverse())
             res.render("chat", { ownUsername: username, ownUserId: user_id, onLoadedMessages: messages });
         }
@@ -22,7 +22,12 @@ module.exports = function (app, io) {
         else {
             const ownUser = await Users.findOne({ id: user_id })
             const username = ownUser.username
-            const messageList = await Messages.find().sort({ receiver_id: id }).limit(7)
+            const messageList = await Messages.find({
+                $or: [
+                    { receiver_id: id, user_id: user_id },
+                    { receiver_id: user_id, user_id: id }
+                ]
+            }).sort({ field: "asc", _id: -1 }).limit(7)
             const messages = JSON.stringify(messageList.reverse())
             res.render("chat", { ownUsername: username, ownUserId: user_id, onLoadedMessages: messages });
         }
