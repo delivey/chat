@@ -45,12 +45,10 @@ function afterPageLoad() {
                 }
 
                 let message = {
-                    "content": messageContent.value,
                     "username": ownUsername,
+                    "content": messageContent.value,
                     "receiver_id": receiver_id
                 }
-
-                log(receiver_id)
 
                 socket.emit("message", message)
                 messageContent.value = "";

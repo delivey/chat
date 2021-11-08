@@ -21,14 +21,12 @@
             <div class="search">
                 <input type="text" id="search" placeholder="Search" oninput="search()">
             </div>
-            <div class="chat-container">
-                <p class="chat-username">John Dough</p>
-                <p class="chat-last-message">You: Hello</p>
-            </div>
-            <div class="chat-container">
-                <p class="chat-username">John Dough</p>
-                <p class="chat-last-message">You: Hello</p>
-            </div>
+            <% for(let i=0; i<sideChats.length; i++) {%>
+                <div class="chat-container">
+                    <p class="chat-username"><%= sideChats[i].username %></p>
+                    <p class="chat-last-message"><%= sideChats[i].content %></p>
+                </div>
+            <% } %>
         </div>
         <div class="mid-container">
             <div id="messages" class="messages"></div>

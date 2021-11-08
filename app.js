@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
+const sharedSession = require("express-socket.io-session");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo")
 require("dotenv").config();
@@ -23,15 +24,19 @@ app.set("views", path.join(__dirname, "./public/views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-	session({
-		secret: "keyboard cat",
-		resave: false,
-		saveUninitialized: false,
-		cookie: { secure: false },
-		store: MongoStore.create({ mongoUrl: mongoUrl }),
-	})
-);
+const normalSession = session({
+	secret: "keyboard cat",
+	resave: false,
+	saveUninitialized: false,
+	cookie: { secure: false },
+	store: MongoStore.create({ mongoUrl: mongoUrl }),
+})
+
+app.use(normalSession);
+
+io.use(sharedSession(normalSession, {
+    autoSave:true
+})); 
 
 require("./api/user.js")(app);
 require("./api/chat.js")(app, io);

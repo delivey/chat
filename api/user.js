@@ -37,7 +37,8 @@ module.exports = function (app) {
             const user_id = await registerUser(username);
             req.session.user_id = user_id;
         } else {
-            res.send("DUPLICATE USERNAME")
+            req.session.user_id = duplicate.id;
+            // res.send("DUPLICATE USERNAME")
         }
         res.redirect("/chat");
     });
